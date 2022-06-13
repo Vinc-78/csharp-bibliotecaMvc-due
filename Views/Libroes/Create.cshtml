@@ -1,55 +1,55 @@
 ﻿@*@model csharp_bibliotecaMvc.Models.Libro
 
-@{
+    @{
     ViewData["Title"] = "Create";
-}
+    }
 
-<h1>Create</h1>
+    <h1>Create</h1>
 
-<h4>Libro</h4>
-<hr />
-<div class="row">
+    <h4>Libro</h4>
+    <hr />
+    <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Titolo" class="control-label"></label>
-                <input asp-for="Titolo" class="form-control" />
-                <span asp-validation-for="Titolo" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Settore" class="control-label"></label>
-                <input asp-for="Settore" class="form-control" />
-                <span asp-validation-for="Settore" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Scaffale" class="control-label"></label>
-                <input asp-for="Scaffale" class="form-control" />
-                <span asp-validation-for="Scaffale" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                 @Html.DropDownListFor(m => m.Stato, new List<SelectListItem>
-                   { new SelectListItem{Text="Disponibile", Value="Disponibile"},
-                     new SelectListItem{Text="In Prestito", Value="Prestito"}}, "Seleziona")
-               
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+    <form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+    <label asp-for="Titolo" class="control-label"></label>
+    <input asp-for="Titolo" class="form-control" />
+    <span asp-validation-for="Titolo" class="text-danger"></span>
     </div>
-</div>
 
-<div>
+    <div class="form-group">
+    <label asp-for="Settore" class="control-label"></label>
+    <input asp-for="Settore" class="form-control" />
+    <span asp-validation-for="Settore" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+    <label asp-for="Scaffale" class="control-label"></label>
+    <input asp-for="Scaffale" class="form-control" />
+    <span asp-validation-for="Scaffale" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+    @Html.DropDownListFor(m => m.Stato, new List<SelectListItem>
+    { new SelectListItem{Text="Disponibile", Value="Disponibile"},
+    new SelectListItem{Text="In Prestito", Value="Prestito"}}, "Seleziona")
+
+    </div>
+    <div class="form-group">
+    <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+    </form>
+    </div>
+    </div>
+
+    <div>
     <a asp-action="Index">Back to List</a>
-</div>
+    </div>
 
-@section Scripts {
+    @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    }
 *@
 
 
@@ -80,92 +80,117 @@
             <td><p style="color:red;font-weight: bold;">Stato: </p></td>
             <td>
                 @Html.DropDownListFor(m => m.Stato, new List<SelectListItem>
-                { new SelectListItem{Text="Libero", Value="Disponibile"},
-                    new SelectListItem{Text="In prestito", Value="Prestito"}}, "Please select")
+            { new SelectListItem{Text="Libero", Value="Disponibile"},
+            new SelectListItem{Text="In prestito", Value="Prestito"}}, "Please select")
             </td>
         </tr>
         <tr>
             <td>
-                 <button id="aggiungi" class="btn btn-primary">Aggiungi Autore</button>
+                <button id="aggiungi" class="btn btn-primary">Aggiungi Autore</button>
             </td>
 
         </tr>
-        <tr id=listaAutori>
+
+        <tr>
+            <td>
+
+                <h3>Seleziona tra gli autori caricati</h3>
+
+                <select name="autoris" id="autoris" multiple>
+
+                    @foreach (var dati in ViewData["listaAutori"] as List<Autore>)
+                    {
+
+                        <option value="@dati.Cognome-@dati.Nome-@dati.DataNascita">@dati.Nome @dati.Cognome @dati.DataNascita</option>
+                    }
+
+
+                </select>
+
+            </td>
 
         </tr>
-        
 
-       @* <tr>
+        <tr >
+            <td id=listaAutori><h3>Aggiungi Autori</h3></td>
+
+
+        </tr>
+
+
+        @* <tr>
             <td><p style="color:red;font-weight: bold;">Lista autori</p></td>
             <td>
-        @if (Model != null && Model.Autori != null)  
-            {  
-                for (int i = 0; i < Model.Autori.Count(); i++)  
-                {  
-                <tr >  
-                    <td style="font-size: 12px; padding-left: 2px">  
-                        @Html.TextBoxFor(m => m.Autori[i].Cognome);
-                        @Html.TextBoxFor(m => m.Autori[i].Nome);
-                        @Html.TextBoxFor(m => m.Autori[i].DataNascita);
-                    </td>  
-                </tr>  
-                 
-                }  
-            }  
+            @if (Model != null && Model.Autori != null)
+            {
+            for (int i = 0; i < Model.Autori.Count(); i++)
+            {
+            <tr >
+            <td style="font-size: 12px; padding-left: 2px">
+            @Html.TextBoxFor(m => m.Autori[i].Cognome);
+            @Html.TextBoxFor(m => m.Autori[i].Nome);
+            @Html.TextBoxFor(m => m.Autori[i].DataNascita);
             </td>
-        </tr>
+            </tr>
+
+            }
+            }
+            </td>
+            </tr>
         *@
         <tr>
             <td></td>
-            <td><input type="submit" value="Submit"/></td>
+            <td><input type="submit" value="Submit" /></td>
         </tr>
     </table>
 }
 
 @section Scripts {
 
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+<script>
 
-         let i = 0;
+    let i = 0;
 
-         const autoriform = document.getElementById("aggiungi");
+    const autoriform = document.getElementById("aggiungi");
 
-         document.getElementById("aggiungi").addEventListener("click",
-            () =>{
-                
+    document.getElementById("aggiungi").addEventListener("click",
+       () =>{
 
-                event.preventDefault();
 
-               const listaautori = document.getElementById("listaAutori");
+           event.preventDefault();
 
-               const singoloAutore = document.createElement("tr");
+          const listaautori = document.getElementById("listaAutori");
 
-               singoloAutore.innerHTML = `  <td style="font-size: 12px; padding-left: 2px"> 
-                <input data-val="true" data-val-required="The Cognome field is required." id="Autori_${i}__Cognome" name="Autori[${i}].Cognome" type="text"  />
-                        <input data-val="true" data-val-required="The Nome field is required." id="Autori_${i}__Nome" name="Autori[${i}].Nome" type="text"  />
-                        <input data-val="true" data-val-required="The DataNascita field is required." id="Autori_${i}__DataNascita" name="Autori[${i}].DataNascita" type="text"  placeholder="26.04.1340 00:00:00"/> </td>  `
+          const singoloAutore = document.createElement("tr");
 
-                listaautori.appendChild(singoloAutore);
+          singoloAutore.innerHTML = `  <td style="font-size: 12px; padding-left: 2px">
+           <input data-val="true" data-val-required="The Cognome field is required." id="Autori_${i}__Cognome" name="Autori[${i}].Cognome" type="text"  />
+                   <input data-val="true" data-val-required="The Nome field is required." id="Autori_${i}__Nome" name="Autori[${i}].Nome" type="text"  />
+                   <input data-val="true" data-val-required="The DataNascita field is required." id="Autori_${i}__DataNascita" name="Autori[${i}].DataNascita" type="text"  placeholder="26.04.1340 00:00:00"/> </td>  `
 
-                i++
+           listaautori.appendChild(singoloAutore);
 
-                //const bottoneElimina = document.createElement("button");
+           i++
 
-                //bottoneElimina.className="btn btn-danger";
+           //const bottoneElimina = document.createElement("button");
 
-                //bottoneElimina.innerText="Calcella";
+           //bottoneElimina.className="btn btn-danger";
 
-                //listaautori.appendChild(bottoneElimina);
+           //bottoneElimina.innerText="Calcella";
 
-                //bottoneElimina.listaautori.addEventListener("clik",()=>{
-                
-                //listaautori.removeChild()
-               //})
+           //listaautori.appendChild(bottoneElimina);
 
-            });
+           //bottoneElimina.listaautori.addEventListener("clik",()=>{
 
-     </script>
-   
+           //listaautori.removeChild()
+          //})
+
+       });
+
+</script>
+
 }
 

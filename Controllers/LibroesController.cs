@@ -98,11 +98,47 @@ namespace csharp_bibliotecaMvc_due.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Libro libro)
+        public async Task<IActionResult> Create(Libro libro,  string[]? autoris)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(libro);
+
+
+                if (autoris != null)
+                {
+                    List<Autore> lAutori = new List<Autore>();
+
+                    foreach (var ele in autoris)
+                    {
+                        Autore dainserire = new Autore();
+
+                        string[] autore = ele.Split("-");
+
+                        dainserire.Cognome = autore[0];
+                        dainserire.Nome = autore[1];
+                        dainserire.DataNascita = Convert.ToDateTime(autore[2]);
+
+                        lAutori.Add(dainserire);
+                    }
+
+                    Libro aggiunto = new Libro()
+                    {
+                        Titolo = libro.Titolo,
+                        Scaffale = libro.Scaffale,
+                        Stato = libro.Stato,
+                        Autori = lAutori
+                    };
+
+                    _context.Add(aggiunto);
+                   
+
+                }
+                else 
+                {
+                    _context.Add(libro);
+                   
+                }
+               
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
