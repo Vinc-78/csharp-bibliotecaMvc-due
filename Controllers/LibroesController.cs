@@ -104,7 +104,7 @@ namespace csharp_bibliotecaMvc_due.Controllers
             {
 
 
-                if (autoris != null)
+                if (autoris.Length != 0 )
                 {
                     List<Autore> lAutori = new List<Autore>();
 
@@ -118,7 +118,13 @@ namespace csharp_bibliotecaMvc_due.Controllers
                         dainserire.Nome = autore[1];
                         dainserire.DataNascita = Convert.ToDateTime(autore[2]);
 
-                        lAutori.Add(dainserire);
+
+                        var aut = _context.Autoris.Where(m => m.Cognome == dainserire.Cognome).First();
+
+                        lAutori.Add(aut); 
+                        
+
+                        
                     }
 
                     Libro aggiunto = new Libro()
@@ -130,15 +136,12 @@ namespace csharp_bibliotecaMvc_due.Controllers
                     };
 
                     _context.Add(aggiunto);
-                   
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
 
                 }
-                else 
-                {
-                    _context.Add(libro);
-                   
-                }
-               
+              
+                _context.Add(libro);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
